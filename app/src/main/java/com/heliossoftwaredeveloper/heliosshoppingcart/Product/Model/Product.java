@@ -1,12 +1,13 @@
 package com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by rngrajo on 01/02/2018.
  */
 
-public class Product {
+public class Product implements Serializable{
 
     private String itemName, itemCategory, itemcode, releaseDate,itemDescription;
     private int itemPrice;

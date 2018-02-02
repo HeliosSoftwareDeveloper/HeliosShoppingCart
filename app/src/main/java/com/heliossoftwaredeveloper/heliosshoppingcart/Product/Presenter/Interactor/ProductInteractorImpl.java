@@ -90,9 +90,7 @@ public class ProductInteractorImpl implements ProductInteractor{
                         apiManagerGetProducts = null;
                         break;
                 }
-
             }
-
             @Override
             public void onAPICancelled(APIParams apiParams) {
                 callback.onGetProductsCanceled();
