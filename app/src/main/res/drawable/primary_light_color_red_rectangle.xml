@@ -3,6 +3,6 @@
     
     <corners android:radius="4dp"/>
     
-	<solid android:color="@color/colorPrimary" />
-	<padding android:left="25dp" android:right="25dp" android:top="6dp" android:bottom="6dp"/>
+	<solid android:color="@color/colorLightPrimaryRed" />
+	<padding android:left="20dp" android:right="20dp" android:top="6dp" android:bottom="6dp"/>
 </shape>

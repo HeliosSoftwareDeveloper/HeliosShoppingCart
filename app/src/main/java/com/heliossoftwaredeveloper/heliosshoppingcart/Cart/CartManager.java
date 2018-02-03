@@ -61,6 +61,10 @@ public class CartManager {
         }
     }
 
+    public boolean isCartEmpty(){
+        return cartItemHashMap.isEmpty();
+    }
+
     public void clearCart(){
         cartItemHashMap.clear();
     }

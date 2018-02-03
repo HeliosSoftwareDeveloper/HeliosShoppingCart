@@ -51,28 +51,28 @@ public class MainActivity extends BaseActivity
                 fab.setVisibility(View.VISIBLE);
             }
             else{
-                if(getToolbarTitle().equals("Product Details")){
+                if(getToolbarTitle().equals(getString(R.string.title_product_details))){
                     if(checkFragmentFromBackStack(CartFragment.class.getName())){
                         fab.setVisibility(View.INVISIBLE);
                         showBackButton();
                         navigationView.setCheckedItem(R.id.nav_cart);
-                        setToolbarTitle(navigationView.getMenu().getItem(2).getTitle().toString());
+                        setToolbarTitle(getString(R.string.title_my_cart));
                     }
 
                 }
-                else if(getToolbarTitle().equals(navigationView.getMenu().getItem(2).getTitle().toString())){
+                else if(getToolbarTitle().equals(getString(R.string.title_my_cart))){
                     if(checkFragmentFromBackStack(ProductDetailsFragment.class.getName())){
                         showBackButton();
-                        setToolbarTitle("Product Details");
+                        setToolbarTitle(getString(R.string.title_product_details));
                         fab.setVisibility(View.VISIBLE);
                     }
                 }
-                else if(getToolbarTitle().equals(navigationView.getMenu().getItem(3).getTitle().toString())){
+                else if(getToolbarTitle().equals(getString(R.string.title_check_out))){
                     if(checkFragmentFromBackStack(CartFragment.class.getName())){
                         fab.setVisibility(View.INVISIBLE);
                         showBackButton();
                         navigationView.setCheckedItem(R.id.nav_cart);
-                        setToolbarTitle(navigationView.getMenu().getItem(2).getTitle().toString());
+                        setToolbarTitle(getString(R.string.title_my_cart));
                     }
                     else
                         getSupportFragmentManager().popBackStack(ProductListFragment.class.getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -93,8 +93,8 @@ public class MainActivity extends BaseActivity
             setToolbarTitle(item.getTitle().toString());
         } else if (id == R.id.nav_cart) {
             showMyCartFragment();
-        } else if (id == R.id.nav_checkout) {
-            showCheckOutFragment();
+        } else if (id == R.id.nav_favorites) {
+
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -115,25 +115,25 @@ public class MainActivity extends BaseActivity
     @Override
     public void onProductAddToCartClicked(Product product, int sizeSelected) {
         boolean isNewlyAdded = CartManager.getInstance().addItem(product, sizeSelected);
-        showMessage(product.getItemName()+ (isNewlyAdded ? " added.": " quantity added."));
+        showMessage(product.getItemName()+ (isNewlyAdded ? getString(R.string.msg_product_added): getString(R.string.msg_product_quantity_added)));
     }
 
     @Override
     public void onAddProductQuantityClicked(Product product, int size) {
         CartManager.getInstance().addItem(product, size);
-        showMessage(product.getItemName()+ " quantity added.");
+        showMessage(product.getItemName()+ getString(R.string.msg_product_quantity_added));
     }
 
     @Override
     public void onRemoveFromCartClicked(Product product, int size) {
         CartManager.getInstance().removeItem(product, size);
-        showMessage(product.getItemName()+ " product removed.");
+        showMessage(product.getItemName()+ getString(R.string.msg_product_removed));
     }
 
     @Override
     public void onReduceProductQuantityClicked(Product product, int size) {
         CartManager.getInstance().reduceQuantity(product, size);
-        showMessage(product.getItemName()+ " quantity reduced.");
+        showMessage(product.getItemName()+getString(R.string.msg_product_quantity_reduced));
     }
 
     @Override
@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity
 
     public void showProductDetailsFragment(Product product){
         showBackButton();
-        setToolbarTitle("Product Details");
+        setToolbarTitle(getString(R.string.title_product_details));
         fab.setVisibility(View.VISIBLE);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity
         fab.setVisibility(View.INVISIBLE);
         showBackButton();
         navigationView.setCheckedItem(R.id.nav_cart);
-        setToolbarTitle(navigationView.getMenu().getItem(2).getTitle().toString());
+        setToolbarTitle(getString(R.string.title_my_cart));
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         if(checkFragmentFromBackStack(CartFragment.class.getName())){
@@ -201,23 +201,26 @@ public class MainActivity extends BaseActivity
     }
 
     public void showCheckOutFragment(){
-        fab.setVisibility(View.INVISIBLE);
-        showBackButton();
-        navigationView.setCheckedItem(R.id.nav_checkout);
-        setToolbarTitle(navigationView.getMenu().getItem(3).getTitle().toString());
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if(checkFragmentFromBackStack(CheckOutFragment.class.getName())){
-            fragmentManager.popBackStack(CheckOutFragment.class.getName(), 0);
-        }
+        if(CartManager.getInstance().isCartEmpty())
+            showMessage(getString(R.string.msg_cart_empty));
         else{
-            CheckOutFragment checkOutFragment = CheckOutFragment.newInstance(CartManager.getInstance().getCart());
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fragment_container, checkOutFragment,CheckOutFragment.class.getName());
-            fragmentTransaction.hide(productListFragment);
-            fragmentTransaction.show(checkOutFragment);
-            fragmentTransaction.addToBackStack(checkOutFragment.getClass().getName());
-            fragmentTransaction.commit();
+            fab.setVisibility(View.INVISIBLE);
+            showBackButton();
+            setToolbarTitle(getString(R.string.title_check_out));
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if(checkFragmentFromBackStack(CheckOutFragment.class.getName())){
+                fragmentManager.popBackStack(CheckOutFragment.class.getName(), 0);
+            }
+            else{
+                CheckOutFragment checkOutFragment = CheckOutFragment.newInstance(CartManager.getInstance().getCart());
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fragment_container, checkOutFragment,CheckOutFragment.class.getName());
+                fragmentTransaction.hide(productListFragment);
+                fragmentTransaction.show(checkOutFragment);
+                fragmentTransaction.addToBackStack(checkOutFragment.getClass().getName());
+                fragmentTransaction.commit();
+            }
         }
     }
 }

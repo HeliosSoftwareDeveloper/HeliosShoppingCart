@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
-                    android:background="@drawable/btn_dark_red_selector"
+                    android:background="@drawable/btn_primary_color_selector"
                     android:text="Add to Cart" />
             </LinearLayout>
         </LinearLayout>

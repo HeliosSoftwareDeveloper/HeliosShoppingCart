@@ -102,8 +102,9 @@
                     android:id="@+id/btnRemoveFromCart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_cancel"
                     android:textColor="#fff"
-                    android:background="@drawable/btn_dark_red_selector"
+                    android:background="@drawable/btn_primary_red_color_selector"
                     android:text="Remove from Cart" />
             </LinearLayout>
         </LinearLayout>
