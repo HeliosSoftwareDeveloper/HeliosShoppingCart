@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/primary_color_red_rectangle"
-          android:state_pressed="true" />
-    <item android:drawable="@drawable/primary_color_red_rectangle"
-          android:state_focused="true" />
-    <item android:drawable="@drawable/primary_light_color_red_rectangle" />
-</selector>

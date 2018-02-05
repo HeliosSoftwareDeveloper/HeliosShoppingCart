@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Adapter.ProductPagerAdapter;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
@@ -72,9 +73,7 @@ public class ProductDetailsFragment extends Fragment {
         TextView txtProductCode =(TextView)view.findViewById(R.id.txtProductCode);
         TextView txtReleaseDate =(TextView)view.findViewById(R.id.txtReleaseDate);
         TextView txtPrice =(TextView)view.findViewById(R.id.txtPrice);
-        final TextView txtSize =(TextView)view.findViewById(R.id.txtSize);
-        ImageButton imgBtnBefore =(ImageButton)view.findViewById(R.id.imgBtnBefore);
-        ImageButton imgBtnNext =(ImageButton)view.findViewById(R.id.imgBtnNext);
+        HorizontalDataSetPicker horizontalPickerSize=(HorizontalDataSetPicker)view.findViewById(R.id.horizontalPickerSize);
         Button btnAddToCart =(Button)view.findViewById(R.id.btnAddToCart);
 
         FragmentPagerAdapter adapterViewPager = new ProductPagerAdapter(getChildFragmentManager(), product);
@@ -86,27 +85,9 @@ public class ProductDetailsFragment extends Fragment {
 
         txtReleaseDate.setText(product.getReleaseDate());
 
+        horizontalPickerSize.setDataSetInt(product.getSizes());
 
-        txtSize.setText(Integer.toString(product.getSizes().get(0)));
         txtPrice.setText("$"+Integer.toString(product.getItemPrice()));
-
-        imgBtnBefore.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int index = product.getSizes().indexOf(Integer.valueOf(txtSize.getText().toString()));
-                if(index > 0)
-                    txtSize.setText(Integer.toString(product.getSizes().get(index-1)));
-            }
-        });
-
-        imgBtnNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int index = product.getSizes().indexOf(Integer.valueOf(txtSize.getText().toString()));
-                if(index >= 0 && index < (product.getSizes().size() - 1))
-                    txtSize.setText(Integer.toString(product.getSizes().get(index+1)));
-            }
-        });
 
         btnAddToCart.setOnClickListener(new View.OnClickListener(){
             @Override

@@ -1,73 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/lightGray"
+    android:background="@color/colorLightGray"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:id="@+id/layoutCartSummary"
-        android:background="@color/colorAccent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true"
-            android:padding="16dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"
-                android:text="Total Amount:" />
-            <TextView
-                android:id="@+id/txtTotalAmount"
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="12dp"
-                android:lines="1"
-                android:ellipsize="end"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"
-                android:text="Item Count:" />
-            <TextView
-                android:id="@+id/txtItemCount"
-                android:layout_width="wrap_content"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="12dp"
-                android:lines="1"
-                android:ellipsize="end"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
-
-    </RelativeLayout>
+    <include layout="@layout/view_item_count_and_amount" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:id="@+id/layoutCheckout"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorAccent"
-        android:padding="12dp"
+        android:background="@color/colorDarkGray"
+        android:padding="@dimen/default_spacing"
         android:layout_height="wrap_content">
 
         <Button
@@ -75,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:background="@drawable/btn_primary_color_selector"
+            android:background="@drawable/color_green_selector"
             android:text="Proceed To Check out" />
         </RelativeLayout>
 
@@ -83,7 +27,7 @@
         android:id="@+id/recyclerViewCart"
         android:layout_width="match_parent"
         android:layout_above="@+id/layoutCheckout"
-        android:layout_below="@+id/layoutCartSummary"
+        android:layout_below="@+id/layoutItemCountAndAmount"
         android:paddingBottom="8dp"
         android:layout_height="match_parent" />
 </RelativeLayout>

@@ -3,16 +3,15 @@ package com.heliossoftwaredeveloper.heliosshoppingcart.Cart.View.Adapter;
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.heliossoftwaredeveloper.heliosshoppingcart.Cart.Model.CartItem;
+import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.Constant;
@@ -20,7 +19,6 @@ import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.ImageLazyLoader.
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.ImageLazyLoader.Model.ImageRequestData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Adapter class for Movielist RecyclerView
@@ -62,21 +60,19 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
      * Class for MovieViewDetails ViewHolder
      */
     public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtProductName,txtSize,txtPrice,txtQuantity;
+        public TextView txtProductName,txtSize,txtPrice;
         public ImageView imgPhoto;
-        public ImageButton imgBtnBefore, imgBtnNext;
         public Button btnRemoveFromCart;
+        public HorizontalDataSetPicker horizontalPickerQuantity;
 
         public ProductsViewHolder(View view ) {
             super(view);
             txtProductName = (TextView)view.findViewById(R.id.txtProductName);
             txtSize = (TextView)view.findViewById(R.id.txtSize);
             txtPrice = (TextView)view.findViewById(R.id.txtPrice);
-            txtQuantity = (TextView)view.findViewById(R.id.txtQuantity);
             imgPhoto = (ImageView)view.findViewById(R.id.imgPhoto);
-            imgBtnBefore = (ImageButton)view.findViewById(R.id.imgBtnBefore);
-            imgBtnNext = (ImageButton)view.findViewById(R.id.imgBtnNext);
             btnRemoveFromCart = (Button)view.findViewById(R.id.btnRemoveFromCart);
+            horizontalPickerQuantity = (HorizontalDataSetPicker)view.findViewById(R.id.horizontalPickerQuantity);
         }
     }
 
@@ -95,35 +91,23 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         productViewHolder.txtSize.setText(Integer.toString(cartItem.getItemSize()));
         productViewHolder.txtPrice.setText("$"+Integer.toString(product.getItemPrice() * cartItem.getItemQuantity()));
 
-        productViewHolder.txtQuantity.setText(Integer.toString(cartItem.getItemQuantity()));
+        productViewHolder.horizontalPickerQuantity.setDataRange(1, 99,cartItem.getItemQuantity());
+        productViewHolder.horizontalPickerQuantity.setListener(new HorizontalDataSetPicker.HorizontalDataSetPickerListener() {
+            @Override
+            public void onNextClickedListener(String value, int intValue) {
+                callback.onAddQuantityClicked(cartItem, position);
+            }
+
+            @Override
+            public void onPreviousClickedListener(String value, int intValue) {
+                callback.onReduceQuantityClicked(cartItem,position);
+            }
+        });
 
         productViewHolder.imgPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 callback.onShowProductDetails(product);
-            }
-        });
-
-        productViewHolder.imgBtnBefore.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.parseInt(productViewHolder.txtQuantity.getText().toString());
-                if(quantity > 1){
-                    productViewHolder.txtQuantity.setText(Integer.toString(quantity - 1));
-                    callback.onReduceQuantityClicked(cartItem,position);
-                }
-                else{
-                    callback.onRemoveFromCart(cartItem, position);
-                }
-            }
-        });
-
-        productViewHolder.imgBtnNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int quantity = Integer.valueOf(productViewHolder.txtQuantity.getText().toString());
-                    productViewHolder.txtQuantity.setText(Integer.toString(quantity +1));
-                callback.onAddQuantityClicked(cartItem, position);
             }
         });
 

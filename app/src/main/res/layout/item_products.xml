@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:HorizontalDataSetPicker="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -50,8 +51,11 @@
                     android:layout_height="wrap_content"
                     android:text="" />
 
-
-                <include layout="@layout/view_product_size_picker" />
+                <com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker
+                    android:layout_width="wrap_content"
+                    android:id="@+id/horizontalPickerSize"
+                    HorizontalDataSetPicker:labelText="Size:"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -81,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#fff"
-                    android:background="@drawable/btn_primary_color_selector"
+                    android:background="@drawable/color_green_selector"
                     android:text="Add to Cart" />
             </LinearLayout>
         </LinearLayout>

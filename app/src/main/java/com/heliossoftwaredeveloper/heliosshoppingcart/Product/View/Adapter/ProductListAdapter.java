@@ -3,14 +3,14 @@ package com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Adapter;
 import android.app.Activity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.Constant;
@@ -59,20 +59,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      * Class for MovieViewDetails ViewHolder
      */
     public class ProductsViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtProductName,txtSize,txtPrice;
+        public TextView txtProductName,txtPrice;
         public ImageView imgPhoto;
-        public ImageButton imgBtnBefore, imgBtnNext;
         public Button btnAddToCart;
+        public HorizontalDataSetPicker horizontalPickerSize;
 
         public ProductsViewHolder(View view ) {
             super(view);
             txtProductName = (TextView)view.findViewById(R.id.txtProductName);
-            txtSize = (TextView)view.findViewById(R.id.txtSize);
             txtPrice = (TextView)view.findViewById(R.id.txtPrice);
             imgPhoto = (ImageView)view.findViewById(R.id.imgPhoto);
-            imgBtnBefore = (ImageButton)view.findViewById(R.id.imgBtnBefore);
-            imgBtnNext = (ImageButton)view.findViewById(R.id.imgBtnNext);
             btnAddToCart = (Button)view.findViewById(R.id.btnAddToCart);
+            horizontalPickerSize = (HorizontalDataSetPicker)view.findViewById(R.id.horizontalPickerSize);
         }
     }
 
@@ -87,7 +85,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         final ProductsViewHolder productViewHolder = (ProductsViewHolder) holder;
         productViewHolder.txtProductName.setText(product.getItemName());
-        productViewHolder.txtSize.setText(Integer.toString(product.getSizes().get(0)));
         productViewHolder.txtPrice.setText("$"+Integer.toString(product.getItemPrice()));
 
         productViewHolder.imgPhoto.setOnClickListener(new View.OnClickListener(){
@@ -97,31 +94,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         });
 
-        productViewHolder.imgBtnBefore.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int index = productsArrayList.get(position).getSizes().indexOf(Integer.valueOf(productViewHolder.txtSize.getText().toString()));
-                if(index > 0)
-                    productViewHolder.txtSize.setText(Integer.toString(productsArrayList.get(position).getSizes().get(index-1)));
-            }
-        });
-
-        productViewHolder.imgBtnNext.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                int index = productsArrayList.get(position).getSizes().indexOf(Integer.valueOf(productViewHolder.txtSize.getText().toString()));
-                if(index >= 0 && index < (productsArrayList.get(position).getSizes().size() - 1))
-                    productViewHolder.txtSize.setText(Integer.toString(productsArrayList.get(position).getSizes().get(index+1)));
-            }
-        });
-
         productViewHolder.btnAddToCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                callback.onItemAddToCart(productsArrayList.get(position),Integer.valueOf(productViewHolder.txtSize.getText().toString()));
+                callback.onItemAddToCart(productsArrayList.get(position), productViewHolder.horizontalPickerSize.getValueInt());
             }
         });
 
+        productViewHolder.horizontalPickerSize.setDataSetInt(productsArrayList.get(position).getSizes());
 
         ImageLazyLoaderManager.getInstance().setCallback(this);
         ImageLazyLoaderManager.getInstance().loadImage(new ImageRequestData(productViewHolder.imgPhoto,Constant.URL_IMAGE_LINK.replace("[SLUG]",product.getImageArrayList().get(0)),ContextCompat.getDrawable(context, R.mipmap.ic_launcher)));
