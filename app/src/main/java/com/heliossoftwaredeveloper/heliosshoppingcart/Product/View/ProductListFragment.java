@@ -60,18 +60,6 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof ProductListFragment.ProductListFragmentCallback) {
-            callback = (ProductListFragment.ProductListFragmentCallback) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-
-    @Override
     public void onRefresh() {
         presenter.getProductList();
     }
@@ -80,6 +68,17 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
     public void onDestroyView() {
         super.onDestroyView();
         presenter.onDestroy();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ProductListFragment.ProductListFragmentCallback) {
+            callback = (ProductListFragment.ProductListFragmentCallback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override

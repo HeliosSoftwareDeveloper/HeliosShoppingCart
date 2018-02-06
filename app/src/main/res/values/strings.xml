@@ -19,4 +19,11 @@
     <string name="msg_product_removed"> product removed.</string>
     <string name="msg_product_quantity_added"> quantity added.</string>
     <string name="msg_product_quantity_reduced"> quantity reduced.</string>
+
+
+    <string name="msg_product_favorite"> product favorited.</string>
+    <string name="msg_product_unfavorite"> product unfavorited.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

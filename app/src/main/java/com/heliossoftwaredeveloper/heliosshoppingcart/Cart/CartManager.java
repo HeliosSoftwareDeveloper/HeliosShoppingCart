@@ -14,9 +14,9 @@ public class CartManager {
     private static CartManager instance = null;
     private HashMap<String, CartItem> cartItemHashMap = new HashMap<>();
     /**
-     * method to get ImageLazyLoaderManager instance
+     * method to get CartManager instance
      *
-     * @return ImageLazyLoaderManager
+     * @return CartManager
      */
     public static CartManager getInstance() {
         if (instance == null) {

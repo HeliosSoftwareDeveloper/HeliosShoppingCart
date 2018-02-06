@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.Constant;

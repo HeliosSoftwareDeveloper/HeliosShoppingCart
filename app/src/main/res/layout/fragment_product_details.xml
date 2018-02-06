@@ -152,12 +152,13 @@
         </ScrollView>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab2"
+    <ImageButton
+        android:id="@+id/imgbtnFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:background="@null"
         app:srcCompat="@drawable/ic_favorite_selector" />
 </RelativeLayout>

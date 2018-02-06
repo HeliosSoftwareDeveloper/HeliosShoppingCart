@@ -11,14 +11,16 @@ import android.view.MenuItem;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Cart.CartManager;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Cart.View.CartFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Cart.View.CheckOutFragment;
+import com.heliossoftwaredeveloper.heliosshoppingcart.Product.FavoritesManager;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
+import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.FavoritesFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.ProductDetailsFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.ProductListFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.ImageLazyLoader.ImageLazyLoaderManager;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,ProductListFragment.ProductListFragmentCallback,CartFragment.CartFragmentCallback,CheckOutFragment.CheckOutFragmentCallback {
+        implements NavigationView.OnNavigationItemSelectedListener,FavoritesFragment.FavoritesFragmentCallback,ProductDetailsFragment.ProductDetailsFragmentCallback,ProductListFragment.ProductListFragmentCallback,CartFragment.CartFragmentCallback,CheckOutFragment.CheckOutFragmentCallback {
 
     public Fragment productListFragment;
 
@@ -94,6 +96,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_cart) {
             showMyCartFragment();
         } else if (id == R.id.nav_favorites) {
+            showFavoritesFragment();
 
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -151,6 +154,24 @@ public class MainActivity extends BaseActivity
         onBackPressed();
     }
 
+    @Override
+    public void onProductDetailsAddToCartClickListener(Product product, int size) {
+        boolean isNewlyAdded = CartManager.getInstance().addItem(product, size);
+        showMessage(product.getItemName()+ (isNewlyAdded ? getString(R.string.msg_product_added): getString(R.string.msg_product_quantity_added)));
+    }
+
+    @Override
+    public void onProductDetailsFavoriteClickListener(Product product) {
+        boolean isFavorite = FavoritesManager.getInstance().addRemoveProduct(product);
+        showMessage(product.getItemName()+ (isFavorite ? getString(R.string.msg_product_favorite): getString(R.string.msg_product_unfavorite)));
+
+    }
+
+    @Override
+    public void onFavoritesProductClickedListener(Product product) {
+        showProductDetailsFragment(product);
+    }
+
     public void showProductListFragment(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -169,7 +190,7 @@ public class MainActivity extends BaseActivity
             fragmentManager.popBackStack(ProductDetailsFragment.class.getName(), 0);
         }
         else{
-            Fragment productDetailsFragment = ProductDetailsFragment.newInstance(product);
+            Fragment productDetailsFragment = ProductDetailsFragment.newInstance(product, FavoritesManager.getInstance().isProductFavorite(product));
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.fragment_container, productDetailsFragment,productDetailsFragment.getClass().getName());
             fragmentTransaction.hide(productListFragment);
@@ -223,4 +244,26 @@ public class MainActivity extends BaseActivity
             }
         }
     }
+
+    public void showFavoritesFragment(){
+        fab.setVisibility(View.INVISIBLE);
+        showBackButton();
+        setToolbarTitle(getString(R.string.title_favorites));
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(checkFragmentFromBackStack(FavoritesFragment.class.getName())){
+            fragmentManager.popBackStack(FavoritesFragment.class.getName(), 0);
+        }
+        else{
+            FavoritesFragment favoritesFragment = FavoritesFragment.newInstance(FavoritesManager.getInstance().getFavorites());
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.fragment_container, favoritesFragment,FavoritesFragment.class.getName());
+            fragmentTransaction.hide(productListFragment);
+            fragmentTransaction.show(favoritesFragment);
+            fragmentTransaction.addToBackStack(FavoritesFragment.class.getName());
+            fragmentTransaction.commit();
+        }
+    }
+
+
 }

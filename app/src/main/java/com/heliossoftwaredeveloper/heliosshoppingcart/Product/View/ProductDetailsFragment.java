@@ -1,5 +1,6 @@
 package com.heliossoftwaredeveloper.heliosshoppingcart.Product.View;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker;
@@ -20,7 +22,7 @@ import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ProductDetailsFragment.OnFragmentInteractionListener} interface
+ * {@link ProductDetailsFragment.ProductDetailsFragmentCallback} interface
  * to handle interaction events.
  * Use the {@link ProductDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -29,9 +31,13 @@ public class ProductDetailsFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     public static final String KEY_PRODUCT = "product";
+    public static final String KEY_IS_FAVORITE = "isFavorite";
 
     // TODO: Rename and change types of parameters
     private Product product;
+    private boolean isFavorite;
+
+    private ProductDetailsFragmentCallback callback;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -45,10 +51,11 @@ public class ProductDetailsFragment extends Fragment {
      * @return A new instance of fragment ProductDetailsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProductDetailsFragment newInstance(Product product) {
+    public static ProductDetailsFragment newInstance(Product product, boolean isFavorite) {
         ProductDetailsFragment fragment = new ProductDetailsFragment();
         Bundle args = new Bundle();
         args.putSerializable(KEY_PRODUCT, product);
+        args.putBoolean(KEY_IS_FAVORITE, isFavorite);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,6 +65,7 @@ public class ProductDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             product = (Product) getArguments().getSerializable(KEY_PRODUCT);
+            isFavorite = getArguments().getBoolean(KEY_IS_FAVORITE);
             Log.e("productDetails",product.getItemcode());
         }
     }
@@ -73,7 +81,8 @@ public class ProductDetailsFragment extends Fragment {
         TextView txtProductCode =(TextView)view.findViewById(R.id.txtProductCode);
         TextView txtReleaseDate =(TextView)view.findViewById(R.id.txtReleaseDate);
         TextView txtPrice =(TextView)view.findViewById(R.id.txtPrice);
-        HorizontalDataSetPicker horizontalPickerSize=(HorizontalDataSetPicker)view.findViewById(R.id.horizontalPickerSize);
+        final ImageButton imgbtnFavorite = (ImageButton)view.findViewById(R.id.imgbtnFavorite);
+        final HorizontalDataSetPicker horizontalPickerSize=(HorizontalDataSetPicker)view.findViewById(R.id.horizontalPickerSize);
         Button btnAddToCart =(Button)view.findViewById(R.id.btnAddToCart);
 
         FragmentPagerAdapter adapterViewPager = new ProductPagerAdapter(getChildFragmentManager(), product);
@@ -92,13 +101,40 @@ public class ProductDetailsFragment extends Fragment {
         btnAddToCart.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-
+                callback.onProductDetailsAddToCartClickListener(product,horizontalPickerSize.getValueInt() );
             }
         });
 
+        imgbtnFavorite.setSelected(isFavorite);
+
+        imgbtnFavorite.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                imgbtnFavorite.setSelected(!imgbtnFavorite.isSelected());
+                callback.onProductDetailsFavoriteClickListener(product);
+            }
+        });
 
         return view;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof ProductDetailsFragment.ProductDetailsFragmentCallback) {
+            callback = (ProductDetailsFragment.ProductDetailsFragmentCallback) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        callback = null;
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -106,8 +142,9 @@ public class ProductDetailsFragment extends Fragment {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    public interface OnFragmentInteractionListener {
+    public interface ProductDetailsFragmentCallback {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onProductDetailsAddToCartClickListener(Product product, int size);
+        void onProductDetailsFavoriteClickListener(Product product);
     }
 }
