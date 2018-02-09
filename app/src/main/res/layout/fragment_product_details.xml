@@ -107,7 +107,7 @@
                         android:orientation="horizontal">
 
 
-                        <com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker
+                        <com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.HorizontalDataSetPicker
                             android:layout_width="wrap_content"
                             android:id="@+id/horizontalPickerSize"
                             HorizontalDataSetPicker:labelText="Size:"

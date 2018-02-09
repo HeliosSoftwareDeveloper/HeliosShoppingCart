@@ -4,9 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 
 /**
+ * class that overrides LinearLayoutManager to fix the fatal exception (indexOutOfBoundsException) on recyclerView
  * Created by Ruel Grajo on 20/03/2017.
  */
 
@@ -25,7 +25,6 @@ public class WrapContentLinearLayoutManager extends LinearLayoutManager {
         try {
             super.onLayoutChildren(recycler, state);
         } catch (IndexOutOfBoundsException e) {
-            Log.e("Error", "IndexOutOfBoundsException in RecyclerView happens");
         }
     }
 }

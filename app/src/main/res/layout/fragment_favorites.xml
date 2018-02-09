@@ -13,4 +13,33 @@
         android:paddingRight="4dp"
         android:paddingTop="4dp"
         android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layoutEmptyFavorites"
+        android:visibility="gone"
+        android:background="@color/colorLightGray"
+        android:clickable="true"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imgEmptyFavorites"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_favorite_large"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_below="@+id/imgEmptyFavorites"
+            android:id="@+id/txtEmptyFavorites"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorSilver"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Favorites container is empty." />
+    </RelativeLayout>
 </RelativeLayout>

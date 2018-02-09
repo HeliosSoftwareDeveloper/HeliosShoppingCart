@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker;
+import com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.HorizontalDataSetPicker;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.Constant;

@@ -19,6 +19,7 @@
     <string name="msg_product_removed"> product removed.</string>
     <string name="msg_product_quantity_added"> quantity added.</string>
     <string name="msg_product_quantity_reduced"> quantity reduced.</string>
+    <string name="msg_product_quantity_adjusted"> quantity adjusted.</string>
 
 
     <string name="msg_product_favorite"> product favorited.</string>

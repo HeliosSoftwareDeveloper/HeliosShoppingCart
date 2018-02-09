@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
-import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.ProductImageFragment;
+import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Fragment.ProductImageFragment;
 
 /**
  * Created by rngrajo on 02/02/2018.

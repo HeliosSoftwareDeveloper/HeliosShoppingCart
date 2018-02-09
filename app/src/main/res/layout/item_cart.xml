@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:text="" />
 
-                <com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.HorizontalDataSetPicker
+                <com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.HorizontalDataSetPicker
                     android:layout_width="wrap_content"
                     android:id="@+id/horizontalPickerQuantity"
                     HorizontalDataSetPicker:labelText="Quantity:"
