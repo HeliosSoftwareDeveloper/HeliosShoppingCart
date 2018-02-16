@@ -3,6 +3,7 @@ package com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -39,9 +40,9 @@ public class ImageCarousel extends RelativeLayout{
     private RadioGroup radioGroup;
 
     private ArrayList<ImageCarouseDataHolder> dataSet = new ArrayList<>();
-
-    private String labelText;
-    private Object listener;
+    private ImageCarouselListener listener;
+    private boolean isAutoPlay;
+    private CDTimer cdTimer = new CDTimer(6000, 1000);
 
     /**
      * Class Constructor
@@ -88,7 +89,9 @@ public class ImageCarousel extends RelativeLayout{
         RelativeLayout.LayoutParams layoutParams1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         viewPager.setLayoutParams(layoutParams1);
         RelativeLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL | RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
+        int margin = convertDpToPixel(8,context);
+        layoutParams.setMargins(0,margin,margin,0);
         radioGroup.setLayoutParams(layoutParams);
         radioGroup.setOrientation(LinearLayout.HORIZONTAL);
 
@@ -116,16 +119,27 @@ public class ImageCarousel extends RelativeLayout{
 
     public void setData(ArrayList<ImageCarouseDataHolder> dataSet){
         this.dataSet = dataSet;
-        viewPager.setAdapter(new CarouselAdapter(this.dataSet,context));
+        viewPager.setAdapter(new CarouselAdapter());
+    }
+
+    public void autoplay(boolean status){
+        isAutoPlay = status;
+        if(status)
+            cdTimer.start();
+        else
+            cdTimer.cancel();
     }
 
     public void showRadioButtons(){
         radioGroup.removeAllViews();
-
+        LayoutParams layoutParams1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        int spaces = convertDpToPixel(4,context);
+        layoutParams1.setMargins(spaces,spaces,spaces,spaces);
         for(ImageCarouseDataHolder imageCarouseDataHolder : dataSet){
             RadioButton radioButton = new RadioButton(context);
             radioButton.setId(View.generateViewId());
-
+            radioButton.setLayoutParams(layoutParams1);
+            radioButton.setButtonDrawable(R.drawable.radiobutton_selector);
             radioButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -160,7 +174,7 @@ public class ImageCarousel extends RelativeLayout{
      *
      * @param listener Parameter 1
      */
-    public void setListener(Object listener){
+    public void setListener(ImageCarouselListener listener){
         this.listener = listener;
     }
 
@@ -168,19 +182,10 @@ public class ImageCarousel extends RelativeLayout{
      * Interface to handle next and previous button click event.
      */
     public interface ImageCarouselListener{
-        void onNextClickedListener(String value, int intValue);
-        void onPreviousClickedListener(String value, int intValue);
-        void onInfiniteTriggeredListener(String value, int intValue);
+        void onCarouselItemClicked(Object object);
     }
 
     class CarouselAdapter extends PagerAdapter {
-        private ArrayList<ImageCarouseDataHolder> dataSet;
-        private Context context;
-
-        public CarouselAdapter(ArrayList<ImageCarouseDataHolder> dataSet, Context context){
-            this.dataSet = dataSet;
-            this.context = context;
-        }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
@@ -188,7 +193,7 @@ public class ImageCarousel extends RelativeLayout{
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
 
             RelativeLayout.LayoutParams layoutParams1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             RelativeLayout layoutContainer = new RelativeLayout(context);
@@ -215,6 +220,13 @@ public class ImageCarousel extends RelativeLayout{
             });
             ImageLazyLoaderManager.getInstance().loadImage(new ImageRequestData(imageContent, dataSet.get(position).getImageUrl(), ContextCompat.getDrawable(context, R.mipmap.ic_launcher)));
 
+            imageContent.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if(listener!=null)
+                    listener.onCarouselItemClicked(dataSet.get(position).getObject());
+                }
+            });
 
             RelativeLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
@@ -245,6 +257,31 @@ public class ImageCarousel extends RelativeLayout{
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+        }
+    }
+
+    class CDTimer extends CountDownTimer{
+
+        public CDTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+
+        }
+
+        @Override
+        public void onFinish() {
+            if(viewPager == null || !isAutoPlay)
+                return;
+
+            int next = 0 ;
+            if(viewPager.getCurrentItem() < dataSet.size() -1)
+                next = viewPager.getCurrentItem()+1;
+
+            viewPager.setCurrentItem(next);
+            cdTimer.start();
         }
     }
 }

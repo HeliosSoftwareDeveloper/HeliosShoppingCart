@@ -39,7 +39,6 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
     private RecyclerView recyclerViewProducts;
     private SwipeRefreshLayout swipeContainer;
     private ProductViewListener callback;
-    private ImageCarousel imageCarousel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,7 +47,6 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
 
         recyclerViewProducts = (RecyclerView)view.findViewById(R.id.recyclerViewProducts);
         swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer);
-        imageCarousel = (ImageCarousel)view.findViewById(R.id.imageCarousel);
 
         swipeContainer.setOnRefreshListener(this);
         swipeContainer.post(new Runnable() {
@@ -102,7 +100,7 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
 
     @Override
     public void updateProductViewList(ArrayList<Product> productArrayList) {
-        recyclerViewProducts.setAdapter(new ProductListAdapter(productArrayList,getActivity(),this));
+        ArrayList<Object> objectArrayList = new ArrayList<>();
 
         ArrayList<ImageCarouseDataHolder> imageCarouseDataHolders = new ArrayList<>();
 
@@ -110,11 +108,14 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
         for(Product product : productArrayList){
             ImageCarouseDataHolder imageCarouseDataHolder = new ImageCarouseDataHolder();
             imageCarouseDataHolder.setDescription("asdasd");
-            imageCarouseDataHolder.setImageUrl( Constant.URL_IMAGE_LINK.replace("[SLUG]",product.getImageArrayList().get(0)));
+            imageCarouseDataHolder.setImageUrl( Constant.URL_IMAGE_LINK.replace("[SLUG]",product.getImageArrayList().get(1)));
             imageCarouseDataHolder.setLabel(product.getItemName());
+            imageCarouseDataHolder.setObject(product);
             imageCarouseDataHolders.add(imageCarouseDataHolder);
         }
-        imageCarousel.setData(imageCarouseDataHolders);
+        objectArrayList.add(imageCarouseDataHolders);
+        objectArrayList.addAll(productArrayList);
+        recyclerViewProducts.setAdapter(new ProductListAdapter(objectArrayList,getActivity(),this));
     }
 
     @Override

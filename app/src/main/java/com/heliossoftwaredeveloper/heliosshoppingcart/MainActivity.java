@@ -71,6 +71,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         updateMainViewUI(View.INVISIBLE, true, getString(R.string.title_my_cart),R.id.nav_cart);
                     }
                 }
+                else if(getToolbarTitle().equals(getString(R.string.title_transaction_details))){
+                    if(checkFragmentFromBackStack(TransactionHistoryDetailsFragment.class.getName())){
+                        updateMainViewUI(View.VISIBLE, true, getString(R.string.title_transaction_history),0);
+                    }
+                }
             }
             super.onBackPressed();
         }

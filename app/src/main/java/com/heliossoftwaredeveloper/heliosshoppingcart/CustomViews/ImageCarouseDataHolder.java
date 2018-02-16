@@ -6,6 +6,7 @@ package com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews;
 
 public class ImageCarouseDataHolder {
     private String label, imageUrl, description;
+    private Object object;
 
     public String getLabel() {
         return label;
@@ -29,5 +30,13 @@ public class ImageCarouseDataHolder {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
     }
 }
