@@ -12,6 +12,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.ImageCarouseDataHolder;
+import com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.ImageCarousel;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Presenter.Interface.ProductListPresenter;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Presenter.Impl.ProductListPresenterImpl;
@@ -19,6 +22,7 @@ import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Adapter.Produ
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Interface.ProductListView;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Interface.ProductViewListener;
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
+import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.Constant;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.WrapContentLinearLayoutManager;
 import java.util.ArrayList;
 
@@ -35,6 +39,7 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
     private RecyclerView recyclerViewProducts;
     private SwipeRefreshLayout swipeContainer;
     private ProductViewListener callback;
+    private ImageCarousel imageCarousel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +48,8 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
 
         recyclerViewProducts = (RecyclerView)view.findViewById(R.id.recyclerViewProducts);
         swipeContainer = (SwipeRefreshLayout)view.findViewById(R.id.swipeContainer);
+        imageCarousel = (ImageCarousel)view.findViewById(R.id.imageCarousel);
+
         swipeContainer.setOnRefreshListener(this);
         swipeContainer.post(new Runnable() {
             @Override
@@ -94,8 +101,20 @@ public class ProductListFragment extends Fragment implements ProductListView,Pro
     }
 
     @Override
-    public void updateProductViewList(ArrayList<Product> movieArrayList) {
-        recyclerViewProducts.setAdapter(new ProductListAdapter(movieArrayList,getActivity(),this));
+    public void updateProductViewList(ArrayList<Product> productArrayList) {
+        recyclerViewProducts.setAdapter(new ProductListAdapter(productArrayList,getActivity(),this));
+
+        ArrayList<ImageCarouseDataHolder> imageCarouseDataHolders = new ArrayList<>();
+
+
+        for(Product product : productArrayList){
+            ImageCarouseDataHolder imageCarouseDataHolder = new ImageCarouseDataHolder();
+            imageCarouseDataHolder.setDescription("asdasd");
+            imageCarouseDataHolder.setImageUrl( Constant.URL_IMAGE_LINK.replace("[SLUG]",product.getImageArrayList().get(0)));
+            imageCarouseDataHolder.setLabel(product.getItemName());
+            imageCarouseDataHolders.add(imageCarouseDataHolder);
+        }
+        imageCarousel.setData(imageCarouseDataHolders);
     }
 
     @Override

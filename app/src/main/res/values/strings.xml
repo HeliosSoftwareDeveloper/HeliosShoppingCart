@@ -11,6 +11,7 @@
     <string name="title_product_details">Product Details</string>
     <string name="title_favorites">Favorites</string>
     <string name="title_transaction_history">Transaction History</string>
+    <string name="title_transaction_details">Transaction Details</string>
     <string name="title_my_cart">My Cart</string>
     <string name="title_check_out">Check Out</string>
 

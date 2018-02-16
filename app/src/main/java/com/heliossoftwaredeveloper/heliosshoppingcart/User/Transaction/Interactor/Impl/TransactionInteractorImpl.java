@@ -31,4 +31,14 @@ public class TransactionInteractorImpl implements TransactionInteractor {
     public int getTransactionCount() {
         return UserTransactionsContainer.getInstance().getCurrentTransactionCount();
     }
+
+    @Override
+    public ArrayList<Object> getUserTransactionHistoryItems() {
+        return UserTransactionsContainer.getInstance().getTransactionHistoryItemList();
+    }
+
+    @Override
+    public ArrayList<Object> getTransactionHistoryDetailsItems(UserTransaction userTransaction) {
+        return UserTransactionsContainer.getInstance().getTransactionHistoryDetails(userTransaction);
+    }
 }

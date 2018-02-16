@@ -21,7 +21,7 @@ import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.ImageLazyLoader.
 import java.util.ArrayList;
 
 /**
- * Adapter class for Movielist RecyclerView
+ * Adapter class for Cart list RecyclerView
  *
  * Created by rngrajo on 30/01/2018.
  */
@@ -33,7 +33,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     private CartAdapterCallback callback;
 
     /**
-     * interface for MovieListAdapter callback
+     * interface for CartAdapter callback
      */
     public interface CartAdapterCallback {
         void onAddQuantityClicked(CartItem cartItem, int position);
@@ -44,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     /**
-     * Constructor for MovieListAdapter
+     * Constructor for CartAdapter
      *
      * @param callback
      * @param context
@@ -58,7 +58,7 @@ public class CartAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     }
 
     /**
-     * Class for MovieViewDetails ViewHolder
+     * Class for ProductsViewHolder ViewHolder
      */
     public class ProductsViewHolder extends RecyclerView.ViewHolder {
         public TextView txtProductName,txtSize,txtPrice;

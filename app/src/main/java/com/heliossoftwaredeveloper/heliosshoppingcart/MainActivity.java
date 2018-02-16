@@ -11,16 +11,19 @@ import android.view.MenuItem;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Interface.ProductViewListener;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Cart.Model.CartContainer;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Cart.View.Fragment.CartFragment;
-import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.CheckOutFragment;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Model.UserTransaction;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.Fragment.CheckOutFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Favorites.Model.FavoritesContainer;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.Model.Product;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Favorites.View.Fragment.FavoritesFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Fragment.ProductDetailsFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Product.View.Fragment.ProductListFragment;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.Fragment.TransactionHistoryDetailsFragment;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.Fragment.TransactionHistoryListFragment;
 import com.heliossoftwaredeveloper.heliosshoppingcart.Utilities.ImageLazyLoader.ImageLazyLoaderManager;
 
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener,ProductViewListener,CartFragment.CartFragmentCallback,CheckOutFragment.CheckOutFragmentCallback {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener,ProductViewListener,
+                            CartFragment.CartFragmentCallback,CheckOutFragment.CheckOutFragmentCallback, TransactionHistoryListFragment.TransactionHistoryListFragmentCallback {
 
     public Fragment productListFragment, favoritesFragment;
 
@@ -81,7 +84,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_list) {
             setToolbarTitle(getString(R.string.app_name));
         } else if (id == R.id.nav_history) {
-            setToolbarTitle(item.getTitle().toString());
+            showTransactionHistoryFragment();
         } else if (id == R.id.nav_cart) {
             showMyCartFragment();
         } else if (id == R.id.nav_favorites) {
@@ -112,6 +115,11 @@ public class MainActivity extends BaseActivity
     @Override
     public void onProductClickedListener(Product product) {
         showProductDetailsFragment(product);
+    }
+
+    @Override
+    public void onTransactionHistoryListItemClicked(UserTransaction userTransaction) {
+        showTransactionHistoryDetailsFragment(userTransaction);
     }
 
     public void showProductListFragment(){
@@ -167,4 +175,28 @@ public class MainActivity extends BaseActivity
             addShowFragment(fragmentManager,favoritesFragment,productListFragment,true);
         }
     }
+
+    public void showTransactionHistoryFragment(){
+        updateMainViewUI(View.INVISIBLE, true, getString(R.string.title_transaction_history),R.id.nav_history);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(checkFragmentFromBackStack(TransactionHistoryListFragment.class.getName())){
+            fragmentManager.popBackStack(TransactionHistoryListFragment.class.getName(), 0);
+        }
+        else{
+            addShowFragment(fragmentManager,new TransactionHistoryListFragment(),productListFragment,true);
+        }
+    }
+
+    public void showTransactionHistoryDetailsFragment(UserTransaction userTransaction){
+        updateMainViewUI(View.INVISIBLE, true, getString(R.string.title_transaction_details),0);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(checkFragmentFromBackStack(TransactionHistoryDetailsFragment.class.getName())){
+            fragmentManager.popBackStack(TransactionHistoryDetailsFragment.class.getName(), 0);
+        }
+        else{
+            addShowFragment(fragmentManager,TransactionHistoryDetailsFragment.newInstance(userTransaction),productListFragment,true);
+        }
+    }
+
+
 }

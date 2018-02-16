@@ -1,6 +1,9 @@
 package com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -28,8 +31,46 @@ public class UserTransactionsContainer {
     public ArrayList<UserTransaction> getList(){
         ArrayList<UserTransaction> listCart = new ArrayList<>();
         listCart.addAll(transactionHashMap.values());
+        Collections.sort(listCart,Collections.reverseOrder());
         return listCart;
     }
+
+    public ArrayList<Object> getTransactionHistoryItemList(){
+        ArrayList<UserTransaction> listTransaction = new ArrayList<>();
+        listTransaction.addAll(getList());
+        ArrayList<Object> transactionHistoryItemArrayList = new ArrayList<>();
+
+        String formattedString = "";
+        for(UserTransaction userTransaction : listTransaction){
+            if(userTransaction.getFormattedDate().equals(formattedString)){
+                transactionHistoryItemArrayList.add(userTransaction);
+            }
+            else{
+                formattedString = userTransaction.getFormattedDate();
+                transactionHistoryItemArrayList.add(formattedString);
+                transactionHistoryItemArrayList.add(userTransaction);
+            }
+        }
+        return transactionHistoryItemArrayList;
+    }
+
+    public ArrayList<Object> getTransactionHistoryDetails(UserTransaction userTransaction){
+        ArrayList<Object> transactionHistoryDetailsArrayList = new ArrayList<>();
+        ArrayList<String> transactionDetails = new ArrayList<>();
+
+        transactionDetails.add(userTransaction.getFormattedTotalAmount());
+        transactionDetails.add(userTransaction.getFormattedDateTime());
+        transactionDetails.add(userTransaction.getTransactionId());
+        transactionDetails.add(Integer.toString(userTransaction.getTotalItemCount()));
+
+        transactionHistoryDetailsArrayList.add(transactionDetails);
+        transactionHistoryDetailsArrayList.add(userTransaction.getUser());
+        transactionHistoryDetailsArrayList.add(new String("Purchased Items"));
+        transactionHistoryDetailsArrayList.addAll(userTransaction.getCartItemArrayList());
+
+        return transactionHistoryDetailsArrayList;
+    }
+
 
     public void save(UserTransaction userTransaction){
         Long tsLong = System.currentTimeMillis()/1000;

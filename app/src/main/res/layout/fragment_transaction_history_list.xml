@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/colorLightGray"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/view_transaction_total" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewTransactionHistory"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/small_spacing"
+            android:paddingBottom="@dimen/small_spacing"
+            android:paddingLeft="@dimen/extra_small_spacing"
+            android:paddingRight="@dimen/extra_small_spacing"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/layoutEmptyTransactions"
+        android:visibility="gone"
+        android:background="@color/colorLightGray"
+        android:clickable="true"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/imgEmptyTransactionHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_history_large"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_below="@+id/imgEmptyTransactionHistory"
+            android:id="@+id/txtEmptyFavorites"
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:textColor="@color/colorSilver"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="No previous transaction." />
+    </RelativeLayout>
+</RelativeLayout>

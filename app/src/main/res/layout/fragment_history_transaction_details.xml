@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorLightGray"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewTransactionDetails"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/small_spacing"
+        android:paddingBottom="@dimen/small_spacing"
+        android:paddingLeft="@dimen/extra_small_spacing"
+        android:paddingRight="@dimen/extra_small_spacing"
+        android:layout_height="match_parent" />
+</RelativeLayout>

@@ -4,15 +4,16 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:HorizontalDataSetPicker="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:paddingLeft="@dimen/small_spacing"
+    android:paddingRight="@dimen/small_spacing"
+    android:paddingTop="@dimen/small_spacing"
+    android:paddingBottom="@dimen/small_spacing"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardViewContainer"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="8dp">
 
@@ -27,7 +28,7 @@
                 android:id="@+id/imgPhoto"
                 android:layout_width="0dp"
                 android:layout_weight=".3"
-                android:layout_height="150dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -44,17 +45,34 @@
                     android:id="@+id/txtProductName"
                     android:layout_width="match_parent"
                     android:textStyle="bold"
-                    android:textColor="@color/colorDarkGray"
+                    android:textColor="#000"
                     android:lines="1"
                     android:ellipsize="end"
                     android:layout_height="wrap_content"
                     android:text="" />
 
-                <com.heliossoftwaredeveloper.heliosshoppingcart.CustomViews.HorizontalDataSetPicker
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:id="@+id/horizontalPickerQuantity"
-                    HorizontalDataSetPicker:labelText="Quantity:"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textColor="@color/colorDarkGray"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity:" />
+
+                    <TextView
+                        android:id="@+id/txtQuantity"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/colorDarkGray"
+                        android:layout_marginLeft="12dp"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -102,14 +120,6 @@
                         android:layout_height="wrap_content"
                         android:text="$0" />
                 </LinearLayout>
-                <Button
-                    android:id="@+id/btnRemoveFromCart"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_cancel"
-                    android:textColor="#fff"
-                    android:background="@drawable/color_red_selector"
-                    android:text="Remove Item" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

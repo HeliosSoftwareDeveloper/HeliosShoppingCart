@@ -1,4 +1,4 @@
-package com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View;
+package com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.Fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.heliossoftwaredeveloper.heliosshoppingcart.User.Cart.Model.CartItem;
+
 import com.heliossoftwaredeveloper.heliosshoppingcart.R;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Model.User;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Model.UserTransaction;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Presenter.Impl.CheckOutPresenterImpl;
 import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.Presenter.Interface.CheckOutPresenter;
-
-import java.util.ArrayList;
+import com.heliossoftwaredeveloper.heliosshoppingcart.User.Transaction.View.CheckOutView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,13 +26,14 @@ import java.util.ArrayList;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class CheckOutFragment extends Fragment implements CheckOutView{
+public class CheckOutFragment extends Fragment implements CheckOutView {
 
     private CheckOutFragmentCallback checkOutFragmentCallback;
 
     private EditText etFullName, etPhoneNumber, etEmail, etAddress;
     private TextView txtTotalAmount,txtItemCount;
     private CheckOutPresenter presenter;
+    private UserTransaction userTransaction = new UserTransaction();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +52,10 @@ public class CheckOutFragment extends Fragment implements CheckOutView{
         txtTotalAmount = (TextView)view.findViewById(R.id.txtTotalAmount);
         txtItemCount = (TextView)view.findViewById(R.id.txtItemCount);
 
+        etFullName.setText("rg");
+        etPhoneNumber.setText("123456");
+        etEmail.setText("rg@gmail.com");
+        etAddress.setText("pembo makati city");
         btnCheckOut.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -114,12 +119,13 @@ public class CheckOutFragment extends Fragment implements CheckOutView{
         builder.setMessage("Are you sure you want to check out?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                UserTransaction userTransaction = new UserTransaction();
                 userTransaction.setCartItemArrayList(presenter.getCartItems());
-                userTransaction.setDeliveryAddress(etAddress.getText().toString());
-                userTransaction.setEmail(etEmail.getText().toString());
-                userTransaction.setFullName(etFullName.getText().toString());
-                userTransaction.setPhoneNumber(etPhoneNumber.getText().toString());
+                User user = new User();
+                user.setDeliveryAddress(etAddress.getText().toString());
+                user.setEmail(etEmail.getText().toString());
+                user.setFullName(etFullName.getText().toString());
+                user.setPhoneNumber(etPhoneNumber.getText().toString());
+                userTransaction.setUser(user);
                 presenter.saveTransaction(userTransaction);
             }
         });
@@ -140,6 +146,9 @@ public class CheckOutFragment extends Fragment implements CheckOutView{
     public void updateTotalAmountAndItemCount(int totalAmount, int itemCount) {
         txtTotalAmount.setText("$"+Integer.toString(totalAmount));
         txtItemCount.setText(Integer.toString(itemCount));
+
+        userTransaction.setTotalAmount(totalAmount);
+        userTransaction.setTotalItemCount(itemCount);
     }
 
     /**

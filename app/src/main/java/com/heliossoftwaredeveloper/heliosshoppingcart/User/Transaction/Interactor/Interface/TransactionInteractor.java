@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public interface TransactionInteractor {
 
     ArrayList<UserTransaction> getUserTransactions();
+    ArrayList<Object> getUserTransactionHistoryItems();
+    ArrayList<Object> getTransactionHistoryDetailsItems(UserTransaction userTransaction);
     void saveTransaction(UserTransaction userTransaction);
     int getTotalPurchases();
     int getTransactionCount();
